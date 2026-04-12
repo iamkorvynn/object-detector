@@ -776,7 +776,11 @@ export default function DetectorApp() {
         }
         try {
             const t0 = performance.now();
-            if (m._type === 'hands' || m._type === 'face') await m._hands.send({ image: video });
+            if (m._type === 'hands') {
+                await m._hands.send({ image: video });
+            } else if (m._type === 'face') {
+                await m._face.send({ image: video });
+            }
             const ms = Math.round(performance.now() - t0);
             setStats(prev => ({ ...prev, inferenceMs: ms }));
         } catch { /* silent */ }
